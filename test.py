@@ -7,9 +7,9 @@ header = {
     "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
 }
 
-findTitle = re.compile(r'htm">(.*?)</a>')
+findTitle = re.compile('htm">(.*?)</a>')
 
-findUrl = re.compile(r'href="(.*?)"')
+findUrl = re.compile('href="(.*?)"')
 
 findMode = re.compile("nbs.D110000renmrb")
 baseLast = {}
