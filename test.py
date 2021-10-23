@@ -1,12 +1,5 @@
 
-# from BeautifulSoup4 import BeautifulSoup
-# import time
-# import re
-# import json
-# import urllib.request
-# import urllib.error
-# import requests
-# import ssl
+
 ssl._create_default_https_context = ssl._create_unverified_context  
 
 header = {
