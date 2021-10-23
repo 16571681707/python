@@ -14,11 +14,12 @@ findUrl = re.compile('href="(.*?)"')
 findMode = re.compile("nbs.D110000renmrb")
 baseLast = {}
 
+def main():
+    makeUrl(None)
+    testUrl()
+    getLasturl()
+    askUrl()
 
-makeUrl(None)
-testUrl()
-getLasturl()
-askUrl()
 
 
 def makeUrl(last):
