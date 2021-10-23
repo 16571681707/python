@@ -1,35 +1,40 @@
-name: cglm
+name: Python application
 
 on:
-  workflow_dispatch:
   schedule:
-     - cron: '*/30 1-8 * * *'
-  watch:
-    types: book
-
+       - cron: '*/30 8 * * *'
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 jobs:
   build:
+
     runs-on: ubuntu-latest
-    if: github.event.repository.owner.id == github.event.sender.id
+
     steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-      - name: npm install
-        run: |
-          npm install
-          npm install got #tough-cooki
-      - name: '运行 【cglm】'
-        #if: env.XL_HEADER
-        run: |
-          node test.py
-        env:
-          cglmheader: ${{ secrets.cglmheader }}
-          BARK_PUSH: ${{ secrets.BARK_PUSH }}
-          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-          TG_USER_ID: ${{ secrets.TG_USER_ID }}
-          BARK_SOUND: ${{ secrets.BARK_SOUND }}
-          DD_BOT_TOKEN: ${{ secrets.DD_BOT_TOKEN }}
-          DD_BOT_SECRET: ${{ secrets.DD_BOT_SECRET }}
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install bs4
+        pip install urllib
+        pip install json
+        pip install requests
+        pip install ssl
+    - name: '运行 【cglm】'
+      #if: env.XL_HEADER
+      run: |
+        node test.py
+      env:
+        cglmheader: ${{ secrets.cglmheader }}
+        BARK_PUSH: ${{ secrets.BARK_PUSH }}
+        TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+        TG_USER_ID: ${{ secrets.TG_USER_ID }}
+        BARK_SOUND: ${{ secrets.BARK_SOUND }}
+        DD_BOT_TOKEN: ${{ secrets.DD_BOT_TOKEN }}
+        DD_BOT_SECRET: ${{ secrets.DD_BOT_SECRET }}
