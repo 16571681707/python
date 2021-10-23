@@ -26,6 +26,7 @@ jobs:
         npm install -g babel-cli
         pip install beautifulsoup4
         pip install requests
+        pin install re
     - name: '运行 【cglm】'
       #if: env.XL_HEADER
       run: |
