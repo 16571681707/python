@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-# @Author: friday
-# @Date: 2021/10/23 3:32 下午
-# @Filename: rmrbtest.py
-# @Software: PyCharm
+
 from bs4 import BeautifulSoup
 import time
 import re
@@ -11,32 +7,32 @@ import urllib.request
 import urllib.error
 import requests
 import ssl
-ssl._create_default_https_context = ssl._create_unverified_context  #去除ssl验证
-#定义header
+ssl._create_default_https_context = ssl._create_unverified_context  
+
 header = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
     "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
 }
-#标题
+
 findTitle = re.compile(r'htm">(.*?)</a>')
-#链接
+
 findUrl = re.compile(r'href="(.*?)"')
-#新闻板块数
+
 findMode = re.compile("nbs.D110000renmrb")
 baseLast = {}
-#定义板块数
+
 def main():
     makeUrl(None)
     testUrl()
     getLasturl()
     askUrl()
 
-#获取今日网页
+
 def makeUrl(last):
     global base,baseUrl
-    today = time.strftime("%Y-%m", time.localtime())  # 获取当日时间:2021-09
-    day = int(time.strftime("%d", time.localtime()))  # 获取天:23
-    hours = int(time.strftime("%H", time.localtime()))  # 获取小时数:18
+    today = time.strftime("%Y-%m", time.localtime())  
+    day = int(time.strftime("%d", time.localtime()))
+    hours = int(time.strftime("%H", time.localtime())) 
     if last is not None:
         lasts = last
     else:
@@ -49,16 +45,16 @@ def makeUrl(last):
     else:
         baseUrl = "http://paper.people.com.cn/rmrb/html/" + str(today) + "/" + str(day - 1) + lasts
         base = "http://paper.people.com.cn/rmrb/html/" + str(today) + "/" + str(day - 1)
-#获取板块数
+
 def testUrl():
-    # 模拟客户端
+    
     try:
         global num,baseUrl
-        request = urllib.request.Request(baseUrl, headers=header)  # 构建request对象
-        response = urllib.request.urlopen(request)  # 打开构建的request对象
+        request = urllib.request.Request(baseUrl, headers=header) 
+        response = urllib.request.urlopen(request)  
         html = response.read().decode("utf-8")
-        soup = BeautifulSoup(html, "html.parser")  # 以html.parser解析器解析网址
-        modes = soup.find_all("a",id="pageLink") #获取当前页面有几个新闻板块
+        soup = BeautifulSoup(html, "html.parser")  
+        modes = soup.find_all("a",id="pageLink") 
         num = len(modes)
         print("共有：%d个板块"%num)
     except urllib.error.URLError as e:
@@ -85,18 +81,18 @@ def askUrl():
         time.sleep(9)
     meassage("人民日报每日新闻",newsContent)
 def scanUrl(url):
-    # 模拟客户端
+   
     header = {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
     }
     try:
         global newsContent,newsnum
-        request = urllib.request.Request(url, headers=header)  # 构建request对象
-        response = urllib.request.urlopen(request)  # 打开构建的request对象
+        request = urllib.request.Request(url, headers=header) 
+        response = urllib.request.urlopen(request)  
         html = response.read().decode("utf-8")
-        soup = BeautifulSoup(html, "html.parser")  # 以html.parser解析器解析网址
-        contens = soup.find_all("ul",class_="news-list") # 找到所有通知信息 标签为ul class = tab-item
+        soup = BeautifulSoup(html, "html.parser") 
+        contens = soup.find_all("ul",class_="news-list") 
         content = str(contens)
         news = re.findall(findTitle,content)
         newsUrl = re.findall(findUrl,content)
