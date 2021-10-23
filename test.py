@@ -1,5 +1,5 @@
 
-import BeautifulSoup
+from BeautifulSoup4 import BeautifulSoup
 import time
 import re
 import json
